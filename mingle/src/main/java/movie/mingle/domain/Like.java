@@ -6,6 +6,7 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
+@Table(name = "likes")
 public class Like {
 
     @Id
