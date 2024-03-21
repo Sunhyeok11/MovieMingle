@@ -24,4 +24,12 @@ public class Order {
     private List<OrderItem> orderItems = new ArrayList<>();
 
     private LocalDateTime orderDate;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    // 주문 상태를 업데이트하는 메서드
+    public void updateStatus(OrderStatus newStatus) {
+        this.status = newStatus;
+    }
 }
