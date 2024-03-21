@@ -4,7 +4,14 @@ import movie.mingle.domain.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    // Product 엔티티와 관련된 추가적인 메서드가 필요한 경우 여기에 선언할 수 있습니다.
+
+    // 특정 가격 범위에 해당하는 상품 조회
+    List<Product> findByPriceBetween(double minPrice, double maxPrice);
+
+    // 특정 카테고리에 속한 상품 조회
+    List<Product> findByCategory(String category);
 }

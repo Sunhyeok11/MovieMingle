@@ -13,18 +13,12 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // 회원 등록 메서드
-    @Override
-    @NonNull
-    <S extends Member> S save(@NonNull S entity);
+    Member save(Member member);
 
     // 특정 회원 조회 메서드
-    @Override
-    @Nullable
-    Optional<Member> findById(@Nullable Long id);
+    Optional<Member> findById( Long id);
 
     // 모든 회원 조회 메서드
-    @SuppressWarnings("NullableProblems")
-    @Override
     List<Member> findAll();
 
 }
