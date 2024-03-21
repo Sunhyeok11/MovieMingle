@@ -1,11 +1,31 @@
 package movie.mingle.repository;
 
+import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 import movie.mingle.domain.Member;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    // 여기에 추가적으로 필요한 메서드를 선언할 수 있습니다.
+
+    // 회원 등록 메서드
+    @Override
+    @NonNull
+    <S extends Member> S save(@NonNull S entity);
+
+    // 특정 회원 조회 메서드
+    @Override
+    @Nullable
+    Optional<Member> findById(@Nullable Long id);
+
+    // 모든 회원 조회 메서드
+    @SuppressWarnings("NullableProblems")
+    @Override
+    List<Member> findAll();
+
 }
 

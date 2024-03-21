@@ -54,9 +54,6 @@ public class OrderModificationServiceImpl implements OrderModificationService {
                 order.getOrderItems().add(newOrderItem);
             }
         }
-
-        // 주문 상태 변경 등의 추가 로직이 있다면 여기서 수행
-
         // 주문 엔티티 저장
         orderRepository.save(order);
     }
