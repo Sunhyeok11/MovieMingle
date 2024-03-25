@@ -1,5 +1,6 @@
 package movie.mingle.service;
 
+import movie.mingle.dto.MemberDto;
 import org.springframework.stereotype.Service;
 import movie.mingle.repository.MemberRepository;
 import movie.mingle.domain.Member;
@@ -14,7 +15,12 @@ public class MemberService {
     }
 
     // 회원 가입 로직
-    public Member signUp(Member member) {
+    public Member signUp(MemberDto memberDto) {
+        Member member = new Member();
+        member.setUsername(memberDto.getUsername());
+        member.setEmail(memberDto.getEmail());
+        member.setPhoneNumber(memberDto.getPhoneNumber());
+
         // 회원 정보 저장
         return memberRepository.save(member);
     }

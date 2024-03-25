@@ -1,5 +1,6 @@
 package movie.mingle.repository;
 
+import movie.mingle.dto.MemberDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import movie.mingle.domain.Member;
@@ -11,7 +12,7 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // 회원 등록 메서드
-    Member save(Member member);
+    Member save(MemberDto member);
 
     // 특정 회원 조회 메서드
     Optional<Member> findById( Long id);
