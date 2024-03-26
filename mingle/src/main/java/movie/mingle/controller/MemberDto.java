@@ -1,16 +1,12 @@
-package movie.mingle.dto;
+package movie.mingle.controller;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class MemberDto {
 
     private String username;
     private String email;
     private String phoneNumber;
     private String password;
-
-
 }

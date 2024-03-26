@@ -1,6 +1,6 @@
 package movie.mingle.repository;
 
-import movie.mingle.dto.MemberDto;
+import movie.mingle.controller.MemberDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import movie.mingle.domain.Member;

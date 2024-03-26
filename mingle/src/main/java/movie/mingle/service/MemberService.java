@@ -1,9 +1,12 @@
 package movie.mingle.service;
 
-import movie.mingle.dto.MemberDto;
+import jakarta.transaction.Transactional;
+import movie.mingle.controller.MemberDto;
 import org.springframework.stereotype.Service;
 import movie.mingle.repository.MemberRepository;
 import movie.mingle.domain.Member;
+
+import java.util.List;
 
 @Service
 public class MemberService {
@@ -14,39 +17,19 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    // 회원 가입 로직
-    public Member signUp(MemberDto memberDto) {
-        Member member = new Member();
-        member.setUsername(memberDto.getUsername());
-        member.setEmail(memberDto.getEmail());
-        member.setPhoneNumber(memberDto.getPhoneNumber());
+    @Transactional //변경
+    public Long join(Member member) {
 
-        // 회원 정보 저장
-        return memberRepository.save(member);
+        validateDuplicateMember(member);//중복 회원 검증
+        memberRepository.save(member);
+        return member.getId();
     }
 
-    // 회원 정보 조회 로직
-    public Member getMember(Long memberId) {
-        // 회원 정보 조회
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+    private void validateDuplicateMember(Member member) {
     }
 
-    // 회원 정보 수정 로직
-    public Member updateMember(Long memberId, Member updatedMember) {
-        // 기존 회원 정보 조회
-        Member existingMember = getMember(memberId);
-        // 수정된 회원 정보 업데이트
-        existingMember.setUsername(updatedMember.getUsername());
-        existingMember.setEmail(updatedMember.getEmail());
-        existingMember.setPhoneNumber(updatedMember.getPhoneNumber());
-        // 업데이트된 회원 정보 저장
-        return memberRepository.save(existingMember);
-    }
-
-    // 회원 탈퇴 로직
-    public void deleteMember(Long memberId) {
-        // 회원 정보 삭제
-        memberRepository.deleteById(memberId);
+    //회원 전체 조회
+    public List<Member> findMembers() {
+        return memberRepository.findAll();
     }
 }
