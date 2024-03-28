@@ -20,6 +20,8 @@ public class Member {
     private String phoneNumber;
     private String password;
 
+
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
+
 }

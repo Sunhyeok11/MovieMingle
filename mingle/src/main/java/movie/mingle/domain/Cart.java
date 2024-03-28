@@ -18,7 +18,7 @@ public class Cart {
 
     @OneToOne
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member member_id;
 
     @OneToMany(mappedBy = "cart")
     private List<CartItem> cartItems = new ArrayList<>();
