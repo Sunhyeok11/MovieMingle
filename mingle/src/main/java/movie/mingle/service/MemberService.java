@@ -1,7 +1,6 @@
 package movie.mingle.service;
 
 import jakarta.transaction.Transactional;
-import movie.mingle.controller.MemberDto;
 import org.springframework.stereotype.Service;
 import movie.mingle.repository.MemberRepository;
 import movie.mingle.domain.Member;
