@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Controller
 public class MemberController {
@@ -20,20 +21,13 @@ public class MemberController {
     }
 
     @GetMapping("/signup")
-    public String showSignUpForm() {
+    public String showSignUpForm(Model model) {
+        model.addAttribute("member", new Member()); // 회원 객체를 모델에 추가
         return "signup";
     }
 
     @PostMapping("/signup")
-    public String signUp(@RequestParam String username,
-                         @RequestParam String email,
-                         @RequestParam String phoneNumber,
-                         @RequestParam String password) {
-        Member member = new Member();
-        member.setUsername(username);
-        member.setEmail(email);
-        member.setPhoneNumber(phoneNumber);
-        member.setPassword(password);
+    public String signUp(@ModelAttribute Member member) {
         memberRepository.save(member); // 회원 저장
         return "success"; // 성공 페이지로 리다이렉트
     }
@@ -43,11 +37,18 @@ public class MemberController {
         return "success";
     }
 
-    @GetMapping("test")
-    public String test(Model model) {
-        model.addAttribute("localDateTime", LocalDateTime.now());
-        return "test";
+    @GetMapping("/info/{id}")
+    public String showMemberInfo(@PathVariable Long id, Model model) {
+        Optional<Member> optionalMember = memberRepository.findById(id);
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            model.addAttribute("member", member);
+            return "memberInfo";
+        } else {
+            return "redirect:";
+        }
     }
+
 
     @GetMapping("/date")
     public String date(Model model) {

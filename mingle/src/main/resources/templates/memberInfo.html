@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Information</title>
+</head>
+<body>
+<h2>Member Information</h2>
+<P>UserId: <span th:text="${member.id}"></span></P>
+<p>Username: <span th:text="${member.username}"></span></p>
+<p>Email: <span th:text="${member.email}"></span></p>
+<p>Phone Number: <span th:text="${member.phoneNumber}"></span></p>
+</body>
+</html>
