@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Members</title>
+</head>
+<body>
+<h2>All Members</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <!-- 기타 필요한 회원 정보에 따라 추가 -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="member : ${members}">
+        <td th:text="${member.username}"></td>
+        <td th:text="${member.email}"></td>
+        <td th:text="${member.phoneNumber}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

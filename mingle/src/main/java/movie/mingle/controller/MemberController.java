@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -47,6 +48,13 @@ public class MemberController {
         } else {
             return "redirect:";
         }
+    }
+
+    @GetMapping("/all")
+    public String showAllMembers(Model model) {
+        List<Member> allMembers = memberRepository.findAll();
+        model.addAttribute("members", allMembers);
+        return "allMembers";
     }
 
 
