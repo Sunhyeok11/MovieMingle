@@ -2,6 +2,7 @@ package movie.mingle.controller;
 
 import movie.mingle.domain.Member;
 import movie.mingle.repository.MemberRepository;
+import movie.mingle.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +16,12 @@ import java.util.Optional;
 public class MemberController {
 
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @Autowired
-    public MemberController(MemberRepository memberRepository) {
+    public MemberController(MemberRepository memberRepository, MemberService memberService) {
         this.memberRepository = memberRepository;
+        this.memberService = memberService;
     }
 
     @GetMapping("/signup")
@@ -28,8 +31,19 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public String signUp(@ModelAttribute Member member) {
-        memberRepository.save(member); // 회원 저장
+    public String signUp(@ModelAttribute Member member, Model model) {
+        // 사용자 이름과 이메일 중복 검사 수행
+        if (memberService.isUsernameExists(member.getUsername())) {
+            model.addAttribute("usernameError", "사용자 이름이 이미 존재합니다.");
+            return "signup"; // 사용자 이름 중복 시 회원 가입 폼으로 리다이렉트
+        }
+        if (memberService.isEmailExists(member.getEmail())) {
+            model.addAttribute("emailError", "이메일이 이미 존재합니다.");
+            return "signup"; // 이메일 중복 시 회원 가입 폼으로 리다이렉트
+        }
+
+        // 중복되지 않은 경우 회원 가입 진행
+        memberService.signUp(member);
         return "success"; // 성공 페이지로 리다이렉트
     }
 

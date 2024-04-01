@@ -19,5 +19,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // 모든 회원 조회 메서드
     List<Member> findAll();
 
+    boolean existsByUsername(String username);
+
+    boolean existsByEmail(String email);
 }
 
