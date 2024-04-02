@@ -1,7 +1,9 @@
 package movie.mingle.controller;
 
 import movie.mingle.domain.Member;
+import movie.mingle.domain.Product;
 import movie.mingle.repository.MemberRepository;
+import movie.mingle.repository.ProductRepository;
 import movie.mingle.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +20,13 @@ public class MemberController {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
 
+    private final ProductRepository productRepository;
+
     @Autowired
-    public MemberController(MemberRepository memberRepository, MemberService memberService) {
+    public MemberController(MemberRepository memberRepository, MemberService memberService, ProductRepository productRepository) {
         this.memberRepository = memberRepository;
         this.memberService = memberService;
+        this.productRepository = productRepository;
     }
 
     @GetMapping("/signup")
@@ -76,6 +81,25 @@ public class MemberController {
     public String date(Model model) {
         model.addAttribute("localDateTime", LocalDateTime.now());
         return "date";
+    }
+
+    @GetMapping("/products/new")
+    public String showProductForm(Model model) {
+        model.addAttribute("product", new Product());
+        return "productForm";
+    }
+
+    @PostMapping("/products")
+    public String createProduct(Product product) {
+        productRepository.save(product);
+        return "redirect:/products/new";
+    }
+
+    @GetMapping("/productList")
+    public String showProductList(Model model) {
+        List<Product> productList = productRepository.findAll();
+        model.addAttribute("products", productList);
+        return "productList";
     }
 }
 
