@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+</head>
+<body>
+<h2>Add Product</h2>
+<form action="/products" method="post">
+    <label for="name">Product Name:</label><br>
+    <input type="text" id="name" name="name" th:field="*{product.name}"><br><br>
+    <label for="price">Price:</label><br>
+    <input type="number" id="price" name="price" step="0.01" th:field="*{product.price}"><br><br>
+    <label for="category">Category:</label><br>
+    <input type="text" id="category" name="category" th:field="*{product.category}"><br><br>
+    <label for="stockQuantity">StockQuantity:</label><br>
+    <input type="text" id="stockQuantity" name="stockQuantity" th:field="*{product.stockQuantity}"><br><br>
+    <input type="submit" value="Add Product">
+</form>
+<a th:href="@{/}"> 홈으로 </a>
+</body>
+</html>
