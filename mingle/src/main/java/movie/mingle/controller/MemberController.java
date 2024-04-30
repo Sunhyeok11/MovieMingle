@@ -101,6 +101,31 @@ public class MemberController {
         model.addAttribute("products", productList);
         return "productList";
     }
+
+    @GetMapping("/order")
+    public String showOrderForm(Model model) {
+        List<Product> productList = productRepository.findAll();
+        model.addAttribute("products", productList);
+        return "orderForm";
+    }
+
+    @PostMapping("/placeOrder")
+    public String placeOrder(@RequestParam("productId") Long productId,
+                             @RequestParam("quantity") int quantity,
+                             Model model) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            // 주문 처리 코드
+            // 여기서 주문을 처리하거나 다른 로직을 추가할 수 있습니다.
+            // 이 예시에서는 단순히 주문 정보를 출력합니다.
+            model.addAttribute("product", product);
+            model.addAttribute("quantity", quantity);
+            return "orderConfirmation";
+        } else {
+            return "redirect:/order";
+        }
+    }
 }
 
 
