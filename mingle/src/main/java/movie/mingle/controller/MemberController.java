@@ -1,10 +1,12 @@
 package movie.mingle.controller;
 
 import movie.mingle.domain.Member;
+import movie.mingle.domain.Order;
 import movie.mingle.domain.Product;
 import movie.mingle.repository.MemberRepository;
 import movie.mingle.repository.ProductRepository;
 import movie.mingle.service.MemberService;
+import movie.mingle.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +23,14 @@ public class MemberController {
     private final MemberService memberService;
 
     private final ProductRepository productRepository;
+    private final OrderService orderService;
 
     @Autowired
-    public MemberController(MemberRepository memberRepository, MemberService memberService, ProductRepository productRepository) {
+    public MemberController(MemberRepository memberRepository, MemberService memberService, ProductRepository productRepository, OrderService orderService) {
         this.memberRepository = memberRepository;
         this.memberService = memberService;
         this.productRepository = productRepository;
+        this.orderService = orderService;
     }
 
     @GetMapping("/signup")
@@ -113,16 +117,11 @@ public class MemberController {
     public String placeOrder(@RequestParam("productId") Long productId,
                              @RequestParam("quantity") int quantity,
                              Model model) {
+        orderService.placeOrder(productId, quantity);
+
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
-            // 재고 감소 처리
-            product.decreaseStock(quantity);
-            productRepository.save(product); // 변경된 재고 정보 저장
-
-            // 주문 처리 코드
-            // 여기서 주문을 처리하거나 다른 로직을 추가할 수 있습니다.
-            // 이 예시에서는 단순히 주문 정보를 출력합니다.
             model.addAttribute("product", product);
             model.addAttribute("quantity", quantity);
             return "orderConfirmation";
@@ -130,6 +129,7 @@ public class MemberController {
             return "redirect:/order";
         }
     }
+
 }
 
 
