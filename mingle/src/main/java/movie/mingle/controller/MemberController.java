@@ -116,6 +116,10 @@ public class MemberController {
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
+            // 재고 감소 처리
+            product.decreaseStock(quantity);
+            productRepository.save(product); // 변경된 재고 정보 저장
+
             // 주문 처리 코드
             // 여기서 주문을 처리하거나 다른 로직을 추가할 수 있습니다.
             // 이 예시에서는 단순히 주문 정보를 출력합니다.
