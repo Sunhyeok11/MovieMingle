@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문 확인</title>
+</head>
+<body>
+<h1>주문이 완료되었습니다.</h1>
+<p>상품: <span th:text="${product.name}"></span></p>
+<p>가격: <span th:text="${product.price}"></span>원</p>
+<p>수량: <span th:text="${quantity}"></span></p>
+<p>총 금액: <span th:text="${product.price * quantity}"></span>원</p>
+</body>
+</html>
