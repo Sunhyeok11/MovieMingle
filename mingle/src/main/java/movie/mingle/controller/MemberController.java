@@ -1,8 +1,9 @@
 package movie.mingle.controller;
 
 import movie.mingle.domain.Member;
-import movie.mingle.domain.Order;
 import movie.mingle.domain.Product;
+import movie.mingle.error.ErrorCode;
+import movie.mingle.error.ErrorMessage;
 import movie.mingle.repository.MemberRepository;
 import movie.mingle.repository.ProductRepository;
 import movie.mingle.service.MemberService;
@@ -43,11 +44,11 @@ public class MemberController {
     public String signUp(@ModelAttribute Member member, Model model) {
         // 사용자 이름과 이메일 중복 검사 수행
         if (memberService.isUsernameExists(member.getUsername())) {
-            model.addAttribute("usernameError", "사용자 이름이 이미 존재합니다.");
+            model.addAttribute("usernameError", ErrorMessage.getMessage(ErrorCode.USERNAME_EXISTS));
             return "signup"; // 사용자 이름 중복 시 회원 가입 폼으로 리다이렉트
         }
         if (memberService.isEmailExists(member.getEmail())) {
-            model.addAttribute("emailError", "이메일이 이미 존재합니다.");
+            model.addAttribute("emailError", ErrorMessage.getMessage(ErrorCode.EMAIL_EXISTS));
             return "signup"; // 이메일 중복 시 회원 가입 폼으로 리다이렉트
         }
 
