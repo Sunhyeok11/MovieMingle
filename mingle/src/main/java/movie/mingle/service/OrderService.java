@@ -1,6 +1,8 @@
 package movie.mingle.service;
 
 import movie.mingle.domain.Product;
+import movie.mingle.error.ErrorCode;
+import movie.mingle.error.ErrorMessage;
 import movie.mingle.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,12 +23,12 @@ public class OrderService {
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
+            if (product.getStockQuantity() < quantity) {
+                throw new IllegalArgumentException(ErrorMessage.getMessage(ErrorCode.INSUFFICIENT_STOCK));
+            }
             // 재고 감소 처리
             product.decreaseStock(quantity);
-            productRepository.save(product); // 변경된 재고 정보 저장
-
-            // 주문 처리 로직
-            // 여기서 주문을 처리하거나 다른 로직을 추가할 수 있습니다.
+            productRepository.save(product);
         } else {
             throw new IllegalArgumentException("상품을 찾을 수 없습니다.");
         }

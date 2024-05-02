@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1>상품 주문</h1>
+<div th:if="${errorMessage}" class="error" th:text="${errorMessage}"></div>
 <form action="/placeOrder" method="post">
     <label for="product">상품 선택:</label>
     <select id="product" name="productId">

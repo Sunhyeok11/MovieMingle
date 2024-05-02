@@ -42,14 +42,13 @@ public class MemberController {
 
     @PostMapping("/signup")
     public String signUp(@ModelAttribute Member member, Model model) {
-        // 사용자 이름과 이메일 중복 검사 수행
         if (memberService.isUsernameExists(member.getUsername())) {
             model.addAttribute("usernameError", ErrorMessage.getMessage(ErrorCode.USERNAME_EXISTS));
-            return "signup"; // 사용자 이름 중복 시 회원 가입 폼으로 리다이렉트
+            return "signup";
         }
         if (memberService.isEmailExists(member.getEmail())) {
             model.addAttribute("emailError", ErrorMessage.getMessage(ErrorCode.EMAIL_EXISTS));
-            return "signup"; // 이메일 중복 시 회원 가입 폼으로 리다이렉트
+            return "signup";
         }
 
         // 중복되지 않은 경우 회원 가입 진행
@@ -118,19 +117,26 @@ public class MemberController {
     public String placeOrder(@RequestParam("productId") Long productId,
                              @RequestParam("quantity") int quantity,
                              Model model) {
-        orderService.placeOrder(productId, quantity);
+        try {
+            orderService.placeOrder(productId, quantity);
 
-        Optional<Product> optionalProduct = productRepository.findById(productId);
-        if (optionalProduct.isPresent()) {
-            Product product = optionalProduct.get();
-            model.addAttribute("product", product);
-            model.addAttribute("quantity", quantity);
-            return "orderConfirmation";
-        } else {
-            return "redirect:/order";
+            Optional<Product> optionalProduct = productRepository.findById(productId);
+            if (optionalProduct.isPresent()) {
+                Product product = optionalProduct.get();
+                model.addAttribute("product", product);
+                model.addAttribute("quantity", quantity);
+                return "orderConfirmation";
+            } else {
+                return "redirect:/order";
+            }
+        } catch (IllegalArgumentException ex) {
+            // 예외가 발생한 경우
+            model.addAttribute("errorMessage", ex.getMessage());
+            List<Product> productList = productRepository.findAll();
+            model.addAttribute("products", productList);
+            return "orderForm";
         }
     }
-
 }
 
 
